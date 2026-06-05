@@ -90,6 +90,27 @@ def depthFirstSearch(problem: SearchProblem) -> List[Directions]:
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
     "*** YOUR CODE HERE ***"
+    frontier = util.Stack()
+    visited = set()
+
+    start = problem.getStartState()
+    print("Start:", problem.getStartState())
+    frontier.push((start, []))
+
+    while not frontier.isEmpty():
+        state, path = frontier.pop()
+
+        if problem.isGoalState(state):
+            return path
+
+        if state not in visited:
+            visited.add(state)
+
+            for successor, action, _ in problem.getSuccessors(state):
+                if successor not in visited:
+                    new_path = path + [action]
+                    frontier.push((successor, new_path))
+
     util.raiseNotDefined()
 
 def breadthFirstSearch(problem: SearchProblem) -> List[Directions]:
