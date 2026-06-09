@@ -21,6 +21,7 @@ import util
 from game import Directions
 from typing import List
 
+
 class SearchProblem:
     """
     This class outlines the structure of a search problem, but doesn't implement
@@ -138,7 +139,27 @@ def breadthFirstSearch(problem: SearchProblem) -> List[Directions]:
 def uniformCostSearch(problem: SearchProblem) -> List[Directions]:
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
+    frontier = util.PriorityQueue()
+    visited = set()
+    start = problem.getStartState()
+    frontier.push((start, [], 0), 0)
+
+    while not frontier.isEmpty():
+        state, path, cost = frontier.pop()
+
+        if problem.isGoalState(state):
+            return path
+
+        if state not in visited:
+            visited.add(state)
+   
+            for successor, action, stepCost in problem.getSuccessors(state):
+                if successor not in visited:
+                    new_cost = cost + stepCost
+                    frontier.push((successor, path + [action], new_cost),new_cost)
+    return []
     util.raiseNotDefined()
+
 
 def nullHeuristic(state, problem=None) -> float:
     """
