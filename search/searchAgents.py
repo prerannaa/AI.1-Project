@@ -379,9 +379,28 @@ def cornersHeuristic(state: Any, problem: CornersProblem):
     """
     corners = problem.corners # These are the corner coordinates
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
-
+    position, visitedCorners = state
+    unvisited = []
+    for i in range(4):
+        if not visitedCorners[i]:
+            unvisited.append(corners[i])
+    total = 0 
+    currentPosition = position
+    
     "*** YOUR CODE HERE ***"
-    return 0 # Default to trivial solution
+        
+    while unvisited:
+        distances = []
+        for corner in unvisited:
+            distance = util.manhattanDistance(currentPosition, corner)
+            distances.append(distance)
+        nearestIndex = distances.index(min(distances))
+        
+        total += distances[nearestIndex]
+        currentPosition = unvisited[nearestIndex]
+        unvisited.pop(nearestIndex)
+        
+    return total # Default to trivial solution
 
 
 
